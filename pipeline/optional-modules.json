@@ -1,0 +1,8 @@
+{
+  "pd-patches": {
+    "repository": "https://github.com/ianshores/pd-patches.git",
+    "commit": "ed3180107c03a348a6bd6b2955aaf39496f0bcfc",
+    "path": "modules/pd-patches",
+    "access": "private; requires repository access"
+  }
+}

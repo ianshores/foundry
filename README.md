@@ -12,7 +12,7 @@ deployment recipe selects the compiler and host adapters it needs.
 | Location | Responsibility |
 |---|---|
 | `modules/convoy` | Pinned [Convoy](https://github.com/ianshores/convoy) engine checkout |
-| `modules/pd-patches` | Pinned [Pd modules](https://github.com/ianshores/pd-patches) checkout |
+| `modules/pd-patches` | Optional private Pd module checkout; access required |
 | `projects/` | Plugin metadata, parameters, source locations and target recipes |
 | `adapters/convoy/` | Convoy's Pd external, optional Heavy bridge, WAV loader and plugin editor |
 | `pipeline/` | Shared build orchestration and host-wrapper templates |
@@ -53,9 +53,12 @@ its plugin search path and rescan. The editor loads mono/stereo WAVs, remembers
 the selected file path and exposes the optional tail cutoff. The effect is wet
 only. [Convoy adapter and auditioning guide](adapters/convoy/README.md).
 
-The existing Pd stereo-delay recipe uses the same shared pipeline:
+The existing Pd stereo-delay recipe uses the same shared pipeline. PD Patches
+is a private repository; fetching it requires your existing Git access. Public
+Convoy builds do not need it:
 
 ```sh
+python3 pipeline/fetch_module.py pd-patches
 python3 foundry.py export stereo-delay
 python3 foundry.py build stereo-delay --target reaper
 python3 tests/test_pipeline.py
@@ -85,7 +88,8 @@ are local dependencies and are not distributed here.
 4. Export, build and verify each target here. Commit the updated module pin
    together with adapter changes when promoting a new engine revision.
 
-Git submodules record exact source commits. Generated build records also hash
+Public Git submodules record exact source commits. Optional private dependencies
+are pinned separately in `pipeline/optional-modules.json` and fetched explicitly. Generated build records also hash
 inputs, and builds reject changed sources until re-exported. For local Convoy
 experiments, set `CONVOY_ROOT=/absolute/path/to/convoy`; the build record hashes
 that checkout's headers. Keep that environment variable unset for pinned builds.

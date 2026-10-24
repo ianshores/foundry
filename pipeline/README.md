@@ -11,7 +11,9 @@ A project manifest and a shared Pd effect produce four targets:
 
 The two Unreal targets share a single generated runtime plugin when exported together. All targets share the Pd implementation and manifest parameters. The first project, `stereo-delay`, wraps `modules/pd-patches/modules/lab-delay~.pd`; edits to that module flow into every export.
 
-The source modules are pinned Git submodules. Clone Foundry recursively or run
+The public Convoy module is a pinned Git submodule. The private Pd module
+collection is optional: run `python3 pipeline/fetch_module.py pd-patches` with
+repository access before using the delay recipe. Clone Foundry recursively or run
 `git submodule update --init --recursive` before exporting. The Convoy recipe
 uses `adapters/convoy` and the independent `modules/convoy` engine.
 
@@ -22,6 +24,7 @@ Run these commands from the repository root. Use `python` instead of `python3` o
 ```sh
 python3 pipeline/bootstrap.py
 python3 pipeline/pdplugins.py doctor
+python3 pipeline/fetch_module.py pd-patches
 python3 pipeline/pdplugins.py export stereo-delay
 python3 pipeline/pdplugins.py build stereo-delay --target reaper
 python3 tests/test_pipeline.py

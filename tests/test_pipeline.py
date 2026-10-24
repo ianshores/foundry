@@ -14,6 +14,7 @@ sys.path.insert(0,str(ROOT/'pipeline'))
 import pdplugins as pipeline
 
 class ManifestTests(unittest.TestCase):
+    @unittest.skipUnless((ROOT/"modules/pd-patches/modules").is_dir(), "optional private Pd module not fetched")
     def test_manifest_contract(self):
         m=pipeline.load('stereo-delay')
         self.assertEqual(m['channels'],2)

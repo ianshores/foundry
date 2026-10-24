@@ -1,6 +1,3 @@
 [submodule "modules/convoy"]
 	path = modules/convoy
 	url = https://github.com/ianshores/convoy.git
-[submodule "modules/pd-patches"]
-	path = modules/pd-patches
-	url = https://github.com/ianshores/pd-patches.git

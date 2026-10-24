@@ -15,9 +15,8 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y libsndfile1-dev libsamplerate0-dev libx11-dev libgl1-mesa-dev puredata-core puredata-dev
       - run: python pipeline/bootstrap.py
       - run: python tests/test_bootstrap.py
-      - run: python foundry.py export stereo-delay
-      - run: python foundry.py build stereo-delay --target reaper --jobs 2
-      - run: python tests/test_pipeline.py
+      - name: Manifest checks (private delay checks run when its module is available)
+        run: python tests/test_pipeline.py
       - run: python foundry.py export convoy
       - run: python foundry.py build convoy --target reaper --jobs 2
       - run: python adapters/convoy/tools/test_wav_selector.py build/Convoy/generated --dpf .toolchain/dpf --sanitize

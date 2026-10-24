@@ -8,14 +8,14 @@ Verified on Odysseus, Linux x86_64, Intel Core Ultra 9 185H, October 24, 2026.
   CMake package, tests, benchmarks and the original performance records. Its
   Git history continues from HeavyVerb. It requires no graph compiler or host SDK.
 - **Foundry:** module adapters, compiler integration, plugin UI, WAV loading,
-  host packaging, integration tests and review demos. Convoy and the Pd module
-  collection are pinned Git submodules. Module sources are not duplicated here.
+  host packaging, integration tests and review demos. Convoy is a pinned Git submodule; the private Pd collection is a separately
+  pinned optional dependency, fetched using the caller's existing access. Module sources are not duplicated here.
 - **PD Patches:** reusable Pd source modules and ideation patches. Its README
   links to Foundry for deployment. Existing uncommitted local deployment work
   was copied into Foundry; the original local files were left intact.
 
-The public repositories are `ianshores/convoy`, `ianshores/foundry` and
-`ianshores/pd-patches`. Local roots are `~/dev/code/convoy` and
+The public repositories are `ianshores/convoy` and `ianshores/foundry`.
+`ianshores/pd-patches` retains its private visibility. Local roots are `~/dev/code/convoy` and
 `~/dev/code/foundry`; the old local `heavyverb` path redirects to Convoy for
 existing file references. Prior deployment sources remain in Git history and
 Foundry, not the current engine source tree.
@@ -63,6 +63,10 @@ crashed inside the earlier plugin. The crash record and framework source were
 consistent with an uninitialized metadata object. Calling the required entry
 point made the identity comparison pass. This was an isolated test process;
 REAPER and user projects were not involved.
+
+The first Foundry CI checkout could not access private PD Patches. It is now
+an explicit optional dependency rather than a mandatory submodule. Public CI
+tests Convoy; the delay checks above were run locally with repository access.
 
 GitHub rejected the new Pd module snapshot's private author email. That
 unpublished commit was recreated using the account's GitHub no-reply address;
