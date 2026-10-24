@@ -81,8 +81,9 @@ are local dependencies and are not distributed here.
 
 ## Independent module development
 
-1. Develop and test DSP in its own repository. Convoy exposes `convoy.hpp`,
-   `convoy::Convolver`, and `convoy::convoy` for direct C++ integration.
+1. Develop shared primitives in [DSP](https://github.com/ianshores/dsp)
+   and individual effects in their own repositories. Convoy exposes
+   `convoy.hpp`, `convoy::Convolver`, and `convoy::convoy` for direct C++ integration.
 2. Add a pinned checkout under `modules/` and a recipe under `projects/`.
 3. Implement a thin adapter for the module's API or supported graph compiler.
 4. Export, build and verify each target here. Commit the updated module pin

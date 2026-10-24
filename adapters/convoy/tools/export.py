@@ -114,6 +114,10 @@ def register():
             for header in (ENGINE / "include").glob("*.hpp"):
                 shutil.copy2(header, output / header.name)
             shutil.copy2(ENGINE / "LICENSE", output / "CONVOY-LICENSE.txt")
+            dsp_output = output / "dsp"
+            dsp_output.mkdir(exist_ok=True)
+            shutil.copy2(ENGINE / "vendor/dsp/include/dsp/fft.hpp", dsp_output / "fft.hpp")
+            shutil.copy2(ENGINE / "vendor/dsp/LICENSE", output / "DSP-LICENSE.txt")
             shutil.copy2(ROOT / "include/convoy_ir_override.hpp", output / "convoy_ir_override.hpp")
         return result
     ir2c.compile = classmethod(compile_with_header)
