@@ -1,0 +1,7 @@
+{
+ "FileVersion":3,
+ "Category":"Audio",
+ "Description":"Audible PD delay demos and persistent submix streaming review",
+ "Modules":[{"Name":"DelayReview","Type":"Runtime","LoadingPhase":"Default"}],
+ "Plugins":[{"Name":"PdStereoDelay","Enabled":true},{"Name":"Metasound","Enabled":true},{"Name":"PythonScriptPlugin","Enabled":true},{"Name":"EditorScriptingUtilities","Enabled":true}]
+}

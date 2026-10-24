@@ -1,0 +1,3 @@
+PASS: maker, mono/stereo WAV, resampling, fresh-instance state restore, bad-file fallback, latest-request handoff, built-in restore
+PASS: legacy plugin state loaded and rendered
+PASS: maker, mono/stereo WAV, resampling, fresh-instance state restore, bad-file fallback, latest-request handoff, built-in restore

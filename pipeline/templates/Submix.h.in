@@ -1,0 +1,29 @@
+#pragma once
+#include "CoreMinimal.h"
+#include "Sound/SoundEffectSubmix.h"
+#include "Pd@NAME@Dsp.hpp"
+#include "Pd@NAME@Submix.generated.h"
+
+USTRUCT(BlueprintType)
+struct @API@ FPd@NAME@SubmixSettings {
+    GENERATED_BODY()
+@PROPERTIES@
+};
+class FPd@NAME@Submix : public FSoundEffectSubmix {
+public:
+    void Init(const FSoundEffectSubmixInitData& Data) override { Dsp.Init(Data.SampleRate); }
+    void OnPresetChanged() override;
+    void OnProcessAudio(const FSoundEffectSubmixInputData& InData, FSoundEffectSubmixOutputData& OutData) override;
+private:
+    FPd@NAME@Dsp Dsp;
+};
+UCLASS(BlueprintType, ClassGroup=Audio, meta=(BlueprintSpawnableComponent))
+class @API@ UPd@NAME@SubmixPreset : public USoundEffectSubmixPreset {
+    GENERATED_BODY()
+public:
+    EFFECT_PRESET_METHODS(Pd@NAME@Submix)
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="PD")
+    FPd@NAME@SubmixSettings Settings;
+    UFUNCTION(BlueprintCallable, Category="Audio|PD")
+    void SetSettings(const FPd@NAME@SubmixSettings& InSettings);
+};

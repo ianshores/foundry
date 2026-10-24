@@ -1,0 +1,27 @@
+{
+  "name": "Convoy",
+  "display_name": "Convoy",
+  "description": "Fast, lightweight convolution",
+  "adapter": "convoy",
+  "patch": "../../adapters/convoy/examples/effect.pd",
+  "search_paths": [
+    "../../adapters/convoy/pd/export"
+  ],
+  "channels": 2,
+  "maker": "Ian Shores",
+  "brand_id": "IShs",
+  "unique_id": "Cnvy",
+  "version": "0.2.0",
+  "wwise_plugin_id": 23418,
+  "clap_id": "org.heavyverb.demo",
+  "max_tail_seconds": 30.1,
+  "parameters": [
+    {
+      "name": "ir_tail_cutoff_db",
+      "label": "IR Tail Cutoff dB",
+      "min": -144,
+      "max": 0,
+      "default": 0
+    }
+  ]
+}

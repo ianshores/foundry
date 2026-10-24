@@ -1,0 +1,35 @@
+name: Foundry deployment
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: sudo apt-get update && sudo apt-get install -y libsndfile1-dev libsamplerate0-dev libx11-dev libgl1-mesa-dev puredata-core puredata-dev
+      - run: python pipeline/bootstrap.py
+      - run: python tests/test_bootstrap.py
+      - run: python foundry.py export stereo-delay
+      - run: python foundry.py build stereo-delay --target reaper --jobs 2
+      - run: python tests/test_pipeline.py
+      - run: python foundry.py export convoy
+      - run: python foundry.py build convoy --target reaper --jobs 2
+      - run: python adapters/convoy/tools/test_wav_selector.py build/Convoy/generated --dpf .toolchain/dpf --sanitize
+      - run: .toolchain/venv/bin/python adapters/convoy/tests/export.py
+      - run: make -C adapters/convoy pd PD_INCLUDE_DIR=/usr/include/pd
+      - run: python adapters/convoy/tests/pd.py /usr/bin/pd
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Foundry-Linux-plugins-and-SDK-sources
+          path: |
+            build/*/generated/bin/
+            build/*/generated/wwise/
+            build/*/unreal/
+            build/*/build-info.json
+            build/*/target-status.json

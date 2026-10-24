@@ -1,0 +1,17 @@
+#pragma once
+#include <cstdint>
+#include <algorithm>
+// Host-independent bounded effect-tail accounting; called once per audio block.
+class FPdTailCounter {
+    int64_t Remaining = -1;
+public:
+    struct Result { int Valid; bool More; };
+    void Reset() { Remaining = -1; }
+    Result Advance(bool EndOfInput, int Valid, int Capacity, int64_t TailFrames) {
+        if (!EndOfInput) { Reset(); return {Capacity, true}; }
+        if (Remaining < 0) Remaining = TailFrames;
+        const int Added = static_cast<int>(std::min<int64_t>(Remaining, Capacity - Valid));
+        Remaining -= Added;
+        return { Valid + Added, Remaining > 0 };
+    }
+};

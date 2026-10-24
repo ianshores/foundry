@@ -1,0 +1,64 @@
+-- The CXX compiler identification is GNU 16.2.1
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.2s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/ian/dev/code/convoy/build-convoy
+[ 12%] Building CXX object CMakeFiles/convoy_cutoff.dir/tests/cutoff.cpp.o
+[ 12%] Building CXX object CMakeFiles/convoy_test.dir/tests/core.cpp.o
+[ 18%] Linking CXX executable convoy_cutoff
+[ 18%] Built target convoy_cutoff
+[ 25%] Building CXX object CMakeFiles/convoy_fft_test.dir/tests/fft.cpp.o
+[ 31%] Linking CXX executable convoy_test
+[ 31%] Built target convoy_test
+[ 37%] Building CXX object CMakeFiles/convoy_fft_test_scalar.dir/tests/fft.cpp.o
+[ 43%] Linking CXX executable convoy_fft_test
+[ 43%] Built target convoy_fft_test
+[ 50%] Building CXX object CMakeFiles/convoy_fft_half.dir/tests/fft.cpp.o
+[ 56%] Linking CXX executable convoy_fft_test_scalar
+[ 56%] Built target convoy_fft_test_scalar
+[ 62%] Building CXX object CMakeFiles/convoy_fft_packed.dir/tests/fft.cpp.o
+[ 68%] Linking CXX executable convoy_fft_half
+[ 68%] Built target convoy_fft_half
+[ 75%] Building CXX object CMakeFiles/convoy_realtime.dir/tests/realtime.cpp.o
+[ 81%] Linking CXX executable convoy_fft_packed
+[ 81%] Built target convoy_fft_packed
+[ 87%] Building CXX object CMakeFiles/convoy_benchmark.dir/tests/benchmark.cpp.o
+[ 93%] Linking CXX executable convoy_realtime
+[ 93%] Built target convoy_realtime
+[100%] Linking CXX executable convoy_benchmark
+[100%] Built target convoy_benchmark
+Test project /home/ian/dev/code/convoy/build-convoy
+    Start 1: cutoff
+1/7 Test #1: cutoff ...........................   Passed    0.85 sec
+    Start 2: convolution
+2/7 Test #2: convolution ......................   Passed    0.08 sec
+    Start 3: fft
+3/7 Test #3: fft ..............................   Passed    0.04 sec
+    Start 4: fft_scalar
+4/7 Test #4: fft_scalar .......................   Passed    0.04 sec
+    Start 5: fft_half
+5/7 Test #5: fft_half .........................   Passed    0.04 sec
+    Start 6: fft_packed
+6/7 Test #6: fft_packed .......................   Passed    0.04 sec
+    Start 7: realtime
+7/7 Test #7: realtime .........................   Passed    0.01 sec
+
+100% tests passed out of 7
+
+Total Test time (real) =   1.10 sec
+-- Install configuration: "Release"
+-- Installing: /home/ian/dev/code/convoy/build/install/include
+-- Installing: /home/ian/dev/code/convoy/build/install/include/convoy.hpp
+-- Installing: /home/ian/dev/code/convoy/build/install/include/convoy_fft.hpp
+-- Installing: /home/ian/dev/code/convoy/build/install/include/convoy_portable.hpp
+-- Installing: /home/ian/dev/code/convoy/build/install/include/heavyverb.hpp
+-- Installing: /home/ian/dev/code/convoy/build/install/include/heavyverb_fft.hpp
+-- Installing: /home/ian/dev/code/convoy/build/install/include/heavyverb_portable.hpp
+-- Installing: /home/ian/dev/code/convoy/build/install/include/convoy_legacy_options.hpp
+-- Installing: /home/ian/dev/code/convoy/build/install/lib/cmake/Convoy/ConvoyTargets.cmake
+-- Installing: /home/ian/dev/code/convoy/build/install/lib/cmake/Convoy/ConvoyConfig.cmake
+-- Installing: /home/ian/dev/code/convoy/build/install/lib/cmake/Convoy/ConvoyConfigVersion.cmake

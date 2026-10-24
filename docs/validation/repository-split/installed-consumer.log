@@ -1,0 +1,15 @@
+-- The CXX compiler identification is GNU 16.2.1
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.2s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/ian/dev/code/convoy/build/consumer/out
+[ 50%] Building CXX object CMakeFiles/consumer.dir/home/ian/dev/code/convoy/examples/convolve.cpp.o
+[100%] Linking CXX executable consumer
+[100%] Built target consumer
+1
+0.5
+0.25

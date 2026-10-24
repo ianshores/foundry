@@ -1,0 +1,1 @@
+PASS: VST3 class IDs preserved; new factory names: [('2046504473616c63bdb10ca900000000', 'Audio Module Class', 'Convoy'), ('204650446c727463bdb10ca900000000', 'Component Controller Class', 'Convoy')]

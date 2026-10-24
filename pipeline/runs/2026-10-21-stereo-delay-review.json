@@ -1,0 +1,120 @@
+{
+  "date": "2026-10-21",
+  "finished_utc": "2026-10-21T17:49:44.976870+00:00",
+  "project": "StereoDelay",
+  "scope": "First end-to-end review of the Linux DAW pipeline; SDK targets checked for prerequisites.",
+  "ready_for_review": [
+    "Linux CLAP",
+    "Linux VST3"
+  ],
+  "not_ready": {
+    "Wwise": "SDK not installed",
+    "Unreal Submix Effect": "Engine SDK not installed",
+    "MetaSound node": "Engine SDK not installed"
+  },
+  "tools": {
+    "hvcc": "0.17.2",
+    "DPF_commit": "4238e1c7f0351bbe488d79f0899c540543ac7583",
+    "REAPER": "7.82 Linux x86_64",
+    "clap_validator": "0.4.1"
+  },
+  "steps": [
+    {
+      "step": "Check and bootstrap the pinned tools",
+      "result": "passed",
+      "log": "logs/bootstrap.log"
+    },
+    {
+      "step": "Export the shared delay to all target source packages",
+      "result": "passed",
+      "log": "logs/export-fixed.log"
+    },
+    {
+      "step": "Compile Linux CLAP and VST3 binaries",
+      "result": "passed",
+      "log": "logs/build-fixed.log"
+    },
+    {
+      "step": "Run broad CLAP compatibility checks",
+      "result": "passed with one retained timing warning",
+      "counts": {
+        "success": 32,
+        "skipped": 11,
+        "warning": 1
+      },
+      "log": "logs/clap-validation-after.json"
+    },
+    {
+      "step": "Run compiled DSP and pipeline regressions",
+      "result": "9 passed, no failures or skips",
+      "log": "logs/regression-tests.log"
+    },
+    {
+      "step": "Load and render CLAP and VST3 in a private REAPER instance",
+      "result": "both passed",
+      "details": [
+        {
+          "format": "CLAP",
+          "rate": 48000,
+          "channels": 2,
+          "seconds": 2.0,
+          "dry": 0.0,
+          "left_echo": 0.5,
+          "right_echo": 0.5,
+          "feedback_echo": 0.25
+        },
+        {
+          "format": "VST3",
+          "rate": 48000,
+          "channels": 2,
+          "seconds": 2.0,
+          "dry": 0.0,
+          "left_echo": 0.5,
+          "right_echo": 0.5,
+          "feedback_echo": 0.25
+        }
+      ]
+    },
+    {
+      "step": "Attempt SDK-dependent builds",
+      "result": "not built: missing SDKs",
+      "logs": [
+        "logs/wwise-build.log",
+        "logs/unreal-build.log",
+        "logs/metasound-build.log"
+      ]
+    }
+  ],
+  "issues": [
+    {
+      "issue": "Saved-state reader accepted damaged data",
+      "fix": "Reject truncated state and require a complete parameter section before accepting it. Apply a reproducible, hash-checked patch to the generated DPF copy.",
+      "status": "fixed; malformed-state and normal state round trips pass"
+    },
+    {
+      "issue": "Very small floating-point values can increase CPU use",
+      "fix": "Enable the compiler-provided scoped denormal handling. Verify audio-only performance and restoration of host settings.",
+      "status": "mitigated; audio-only ratio 1.032; broad validator still emits one timing warning. Its timing also includes random test-data generation, so this is not a clean measurement of plugin work alone."
+    },
+    {
+      "issue": "CLAP and VST3 expose parameter scales differently to the test script",
+      "fix": "Set normalized parameter values in the REAPER regression script.",
+      "status": "fixed; both formats render the same 100/150 ms echoes and 0.5 feedback"
+    },
+    {
+      "issue": "Initial REAPER test windows interrupted the desktop",
+      "fix": "Run REAPER on a private Xvfb display with private preferences; disable any desktop fallback. Disable GLX for the virtual server to avoid a local graphics-driver startup failure.",
+      "status": "fixed; final host tests ran without desktop windows"
+    },
+    {
+      "issue": "Wwise and Unreal SDKs are not installed",
+      "fix": "Keep these targets explicitly marked not built; preserve source packages and exact prerequisite failures.",
+      "status": "external prerequisite remains; no compatible latest UE/Wwise pair has been verified"
+    }
+  ],
+  "binary_sha256": {
+    "build/StereoDelay/generated/bin/StereoDelay.clap": "bd845b1f9c686db14f96ed975d56de022a7e8a69d4bc293bf4179a8921673353",
+    "build/StereoDelay/generated/bin/StereoDelay.vst3/Contents/x86_64-linux/StereoDelay.so": "bdf31a3c57836ff98a4c190ae14f93df4dc38d00a22a89a8ed0a6faa44d07b57"
+  },
+  "review_notes": "Internal Linux review build, not a Windows build or a production release. No real Wwise, Unreal Header Tool, MetaSound-host or map-travel tests have been performed."
+}

@@ -1,0 +1,132 @@
+{
+  "date": "2026-10-21",
+  "updated_utc": "2026-10-22T00:53:34.717464+00:00",
+  "project": "StereoDelay",
+  "host": "cradle",
+  "remote_workspace": "C:\\dev\\pd-patches-build",
+  "status": "ready for review",
+  "ready_for_review": [
+    "Wwise Windows x64 authoring plugin",
+    "Wwise Windows x64 runtime DLL and static libraries",
+    "Unreal 5.8.4 Submix Effect preset",
+    "Unreal 5.8.4 stereo MetaSound node"
+  ],
+  "not_ready": {},
+  "installed": {
+    "Python": "3.12.10 x64",
+    "CMake": "4.4.4 x64",
+    "Visual Studio": "2022 17.14.42 / installation 17.14.37806.7; ATL/MFC and native game tools",
+    "MSVC": "14.44.35207",
+    "Windows SDK": "10.0.26100.0",
+    "Visual C++ runtime": "14.51.36247.0 x64",
+    "Unreal Engine": "5.8.4, changelist 58902052",
+    "Wwise": "2025.1.12.9287",
+    "Wwise Unreal Integration": "2025.1.12.4547, UE5.8"
+  },
+  "verification": {
+    "Windows core DSP and manifest suite": "7 passed, 2 Linux host checks skipped",
+    "Bootstrap recovery": "passed on Windows and Linux",
+    "Wwise SDK build": "authoring, Profile static, Release static, Release StaticCRT and Release DLL succeeded",
+    "Wwise SDK callback": "timing, feedback, reset, instance isolation and partial-buffer tail termination at 44100, 48000 and 96000 Hz passed",
+    "Wwise headless authoring": "registered compiled effect; created preset and verified all four saved parameter values",
+    "Unreal SDK build": "editor, game Development and game Shipping configurations succeeded",
+    "Unreal headless host": "preset loaded; settings update verified; custom MetaSound interface verified; stereo graph and preset assets saved; commandlet exit 0",
+    "Linux regression suite": "10 passed, including actual CLAP render and VST3 factory"
+  },
+  "issues": [
+    {
+      "problem": "Sandbox SSH rejects a system configuration ownership check",
+      "fix": "Authorized SSH runs outside the sandbox; no SSH config changes"
+    },
+    {
+      "problem": "PowerShell treats normal Git progress on stderr as a terminating error under ErrorAction Stop",
+      "fix": "Capture native build output with nonterminating native error handling and inspect process exit codes"
+    },
+    {
+      "problem": "Interrupted initial DPF clone leaves an empty working tree that setup mistakes for local modifications",
+      "fix": "Build dependency checkout in a pending directory and publish after success; recovery regression added. Repaired task-created checkout on Cradle"
+    },
+    {
+      "problem": "Windows min/max header macros prevent DSP adapter from compiling",
+      "fix": "Parenthesize standard-library min/max calls; cast parameter hashes explicitly. Verified compiled Windows delay"
+    },
+    {
+      "problem": "Installed 2024 Wwise Launcher API returns HTTP 410",
+      "fix": "User signed into current 2026.1.1.6296 Launcher. Reused its local login for requests only to Audiokinetic; current X-client-version header resolves retired legacy endpoint response."
+    },
+    {
+      "problem": "Optional unofficial Epic downloader would import session and possibly sign official Launcher out",
+      "fix": "User specifically approved the session import and possible Epic Launcher sign-out. Import and Epic download then succeeded."
+    },
+    {
+      "problem": "Wwise reset callback was referenced outside its namespace",
+      "fix": "Qualified the generated callback; real SDK compile and reset/audio checks pass"
+    },
+    {
+      "problem": "Wwise zero-padding changed the valid input frame count before tail accounting, preventing termination",
+      "fix": "Count original input frames before padding; actual SDK callback test verifies exact partial-buffer tail duration and bounded termination at three sample rates"
+    },
+    {
+      "problem": "The Windows Wwise pipeline built only the game runtime",
+      "fix": "Build authoring and runtime projects with explicit vc170 selection; disable certificate signing for local development builds"
+    },
+    {
+      "problem": "UE5.8 rejected C++17 and old MetaSound registration interfaces",
+      "fix": "Use C++20, FNodeData metadata factory and module registration/unregistration macros from the installed engine"
+    },
+    {
+      "problem": "Unreal treats Heavy portable preprocessor defaults and shadowing as compile errors",
+      "fix": "Define missing platform/scalar feature flags, guard compiler architecture macros and scope the member-shadow pragma to generated vendor translation units"
+    },
+    {
+      "problem": "Unreal host reported the Visual C++ runtime was outdated",
+      "fix": "Installed Microsoft runtime 14.51; headless editor subsequently exited successfully"
+    },
+    {
+      "problem": "Generic Wwise property query omitted feedback",
+      "fix": "Verify all four values in the host-saved effect work unit, including feedback"
+    }
+  ],
+  "logs": {
+    "Windows successful tests": "work/cradle/windows-tests-passed.log",
+    "remote logs": "C:\\dev\\pd-patches-build\\logs"
+  },
+  "preserved": [
+    "Existing Wwise 2021 installation and process",
+    "Local visible REAPER review session",
+    "Unrelated Cradle development folders"
+  ],
+  "target_versions": {
+    "Unreal": "5.8.4",
+    "Wwise": "2025.1.12.9287",
+    "integration": "2025.1.12.4547 UE5.8",
+    "evidence": "https://www.audiokinetic.com/en/library/2025.1.12_9287/?source=UE4&id=releasenotes_2025_1_12.html"
+  },
+  "downloads": {
+    "archive_count": 17,
+    "compressed_megabytes": 548.5,
+    "verification": "Audiokinetic signed manifests verified with bundled RSA public key; every archive checked against manifest SHA1 and size",
+    "selected": "Windows x64 VC170 authoring/SDK libraries and Unreal 5.8 integration; no console SDKs"
+  },
+  "review_projects": {
+    "Unreal": "C:\\dev\\pd-patches-build\\source\\build\\StereoDelay\\unreal-review-131eh8_j\\DelayReview\\DelayReview.uproject",
+    "Wwise": "C:\\dev\\pd-patches-build\\source\\build\\StereoDelay\\wwise-review\\AuthoringReview\\AuthoringReview.wproj"
+  },
+  "remaining_review": [
+    "Listen to the Unreal and Wwise plugins in the intended projects",
+    "Verify game audio routing, bank lifetime and persistence during actual level travel"
+  ],
+  "retained_warnings": [
+    "Heavy-generated numeric conversion and local-shadow warnings retained in compiler logs",
+    "Unreal audio-disabled commandlet reports a MetaSound presave cache warning; graph assets save and commandlet passes",
+    "Visual Studio update returned 3010 (restart requested); builds and host checks worked without rebooting"
+  ],
+  "reusable_tests": [
+    "tests/test_bootstrap.py",
+    "tests/test_pipeline.py",
+    "tests/wwise_host.py",
+    "tests/wwise_probe.cpp",
+    "tests/unreal_host.py",
+    "tests/unreal_editor_check.py"
+  ]
+}

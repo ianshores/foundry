@@ -1,0 +1,22 @@
+test_actual_clap_plugin (__main__.CompiledTests.test_actual_clap_plugin) ... CLAP org.pdpatches.stereodelay: dry 0.7000, left echo 0.3000, right echo 0.3000
+ok
+test_delay_timing_and_feedback (__main__.CompiledTests.test_delay_timing_and_feedback) ... ok
+test_odd_block_sizes_and_layouts_match (__main__.CompiledTests.test_odd_block_sizes_and_layouts_match) ... ok
+test_vst3_factory_loads (__main__.CompiledTests.test_vst3_factory_loads) ... ok
+test_wise_tail_counter (__main__.CompiledTests.test_wise_tail_counter) ... ok
+test_init_creates_independent_project (__main__.ManifestTests.test_init_creates_independent_project) ... ok
+test_invalid_parameter_rejected (__main__.ManifestTests.test_invalid_parameter_rejected) ... ok
+test_manifest_contract (__main__.ManifestTests.test_manifest_contract) ... ok
+test_unsupported_layout_rejected (__main__.ManifestTests.test_unsupported_layout_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 1.988s
+
+OK
+Created deployment recipe: /tmp/tmpclbriz3k/projects/anothereffect — edit its parameters to match the external patch.
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK
+Ready. Run: python3 pipeline/pdplugins.py doctor

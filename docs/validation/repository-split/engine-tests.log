@@ -1,0 +1,40 @@
+g++ -O3 -std=c++17 -Wall -Wextra -Iinclude tests/cutoff.cpp -o build/convoy_cutoff
+g++ -O3 -std=c++17 -Wall -Wextra -DCONVOY_TEST_HALF_FORWARD -Iinclude tests/fft.cpp -o build/convoy_fft_half
+g++ -O3 -std=c++17 -Wall -Wextra -DCONVOY_TEST_PACKED -DCONVOY_TEST_PACKED8 -Iinclude tests/fft.cpp -o build/convoy_fft_packed
+g++ -O3 -std=c++17 -Wall -Wextra -DCONVOY_DISABLE_AVX -Iinclude tests/fft.cpp -o build/convoy_fft_sse
+g++ -O3 -std=c++17 -Wall -Wextra -DCONVOY_DISABLE_AVX -DCONVOY_TEST_HALF_FORWARD -Iinclude tests/fft.cpp -o build/convoy_fft_half_sse
+g++ -O3 -std=c++17 -Wall -Wextra -DCONVOY_DISABLE_AVX -DCONVOY_TEST_PACKED -DCONVOY_TEST_PACKED8 -Iinclude tests/fft.cpp -o build/convoy_fft_packed_sse
+g++ -O3 -std=c++17 -Wall -Wextra -DCONVOY_FFT_SCALAR -DCONVOY_TEST_HALF_FORWARD -Iinclude tests/fft.cpp -o build/convoy_fft_half_scalar
+g++ -O3 -std=c++17 -Wall -Wextra -DCONVOY_FFT_SCALAR -DCONVOY_TEST_PACKED -DCONVOY_TEST_PACKED8 -Iinclude tests/fft.cpp -o build/convoy_fft_packed_scalar
+g++ -O3 -std=c++17 -Wall -Wextra -DCONVOY_PORTABLE_FFT -DCONVOY_DISABLE_AVX -Iinclude tests/core.cpp -o build/convoy_test_portable_sse
+g++ -O3 -std=c++17 -Wall -Wextra -DCONVOY_PORTABLE_FFT -DCONVOY_FFT_SCALAR -Iinclude tests/core.cpp -o build/convoy_test_portable_scalar
+g++ -O3 -std=c++17 -Wall -Wextra -Iinclude tests/core.cpp -o build/convoy_test
+g++ -O3 -std=c++17 -Wall -Wextra -DCONVOY_PORTABLE_FFT -Iinclude tests/core.cpp -o build/convoy_test_portable
+g++ -O3 -std=c++17 -Wall -Wextra -Iinclude tests/fft.cpp -o build/convoy_fft_test
+g++ -O3 -std=c++17 -Wall -Wextra -DCONVOY_FFT_SCALAR -Iinclude tests/fft.cpp -o build/convoy_fft_test_scalar
+g++ -O3 -std=c++17 -Wall -Wextra -Iinclude tests/realtime.cpp -Wl,--wrap=malloc,--wrap=calloc,--wrap=realloc -o build/convoy_realtime
+g++ -O3 -std=c++17 -Wall -Wextra -DCONVOY_PORTABLE_FFT -Iinclude tests/realtime.cpp -Wl,--wrap=malloc,--wrap=calloc,--wrap=realloc -o build/convoy_realtime_portable
+./build/convoy_cutoff
+PASS: 81 settled cutoff/full-restore cases and direct live transition model; worst error 3.26328919e-08
+./build/convoy_test
+PASS: 183 reference cases including split boundaries and a four-second IR, arbitrary callbacks, in-place, reset, no audio allocations; max error 3.09944e-06
+./build/convoy_test_portable
+PASS: 183 reference cases including split boundaries and a four-second IR, arbitrary callbacks, in-place, reset, no audio allocations; max error 3.09944e-06
+./build/convoy_fft_test
+PASS: 60 FFT cases, N=32..16384; impulse/DC/Nyquist/tone/random/decay; max roundtrip error 4.76837e-07, worst RMS 1.29159e-07, max sampled spectrum error 0.00050369
+./build/convoy_fft_test_scalar
+PASS: 60 FFT cases, N=32..16384; impulse/DC/Nyquist/tone/random/decay; max roundtrip error 4.76837e-07, worst RMS 1.29159e-07, max sampled spectrum error 0.00050369
+for check in build/convoy_fft_half build/convoy_fft_packed build/convoy_fft_sse build/convoy_fft_half_sse build/convoy_fft_packed_sse build/convoy_fft_half_scalar build/convoy_fft_packed_scalar build/convoy_test_portable_sse build/convoy_test_portable_scalar; do ./$check || exit $?; done
+PASS: 60 FFT cases, N=32..16384; impulse/DC/Nyquist/tone/random/decay; max roundtrip error 3.8743e-07, worst RMS 1.17563e-07, max sampled spectrum error 0.000634757
+PASS: 60 FFT cases, N=32..16384; impulse/DC/Nyquist/tone/random/decay; max roundtrip error 3.8743e-07, worst RMS 1.17563e-07, max sampled spectrum error 0.000634757
+PASS: 60 FFT cases, N=32..16384; impulse/DC/Nyquist/tone/random/decay; max roundtrip error 4.76837e-07, worst RMS 1.29159e-07, max sampled spectrum error 0.00050369
+PASS: 60 FFT cases, N=32..16384; impulse/DC/Nyquist/tone/random/decay; max roundtrip error 3.8743e-07, worst RMS 1.17563e-07, max sampled spectrum error 0.000634757
+PASS: 60 FFT cases, N=32..16384; impulse/DC/Nyquist/tone/random/decay; max roundtrip error 3.8743e-07, worst RMS 1.17563e-07, max sampled spectrum error 0.000634757
+PASS: 60 FFT cases, N=32..16384; impulse/DC/Nyquist/tone/random/decay; max roundtrip error 3.8743e-07, worst RMS 1.17563e-07, max sampled spectrum error 0.000634757
+PASS: 60 FFT cases, N=32..16384; impulse/DC/Nyquist/tone/random/decay; max roundtrip error 3.8743e-07, worst RMS 1.17563e-07, max sampled spectrum error 0.000634757
+PASS: 183 reference cases including split boundaries and a four-second IR, arbitrary callbacks, in-place, reset, no audio allocations; max error 3.09944e-06
+PASS: 183 reference cases including split boundaries and a four-second IR, arbitrary callbacks, in-place, reset, no audio allocations; max error 3.09944e-06
+./build/convoy_realtime
+PASS: C malloc/calloc/realloc interception found zero audio processing/reset allocations
+./build/convoy_realtime_portable
+PASS: C malloc/calloc/realloc interception found zero audio processing/reset allocations

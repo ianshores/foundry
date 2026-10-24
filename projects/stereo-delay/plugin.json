@@ -1,0 +1,50 @@
+{
+  "name": "StereoDelay",
+  "display_name": "PD Stereo Delay",
+  "description": "Stereo feedback delay compiled from the shared Pd module",
+  "abstraction": "lab-delay~",
+  "search_paths": [
+    "../../modules/pd-patches/modules"
+  ],
+  "channels": 2,
+  "maker": "Ian Shores",
+  "brand_id": "IShs",
+  "unique_id": "PdDl",
+  "version": "0.1.0",
+  "wwise_plugin_id": 23417,
+  "parameters": [
+    {
+      "name": "left_ms",
+      "selector": "left",
+      "label": "Left Delay (ms)",
+      "min": 1,
+      "max": 2000,
+      "default": 250
+    },
+    {
+      "name": "right_ms",
+      "selector": "right",
+      "label": "Right Delay (ms)",
+      "min": 1,
+      "max": 2000,
+      "default": 375
+    },
+    {
+      "name": "feedback",
+      "selector": "feedback",
+      "label": "Feedback",
+      "min": 0,
+      "max": 0.9,
+      "default": 0.35
+    },
+    {
+      "name": "wet",
+      "selector": "wet",
+      "label": "Wet Mix",
+      "min": 0,
+      "max": 1,
+      "default": 0.3
+    }
+  ],
+  "max_tail_seconds": 140
+}

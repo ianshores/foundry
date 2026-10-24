@@ -1,0 +1,56 @@
+#pragma once
+#include "Heavy_@NAME@.h"
+#include <algorithm>
+#include <array>
+#include <cmath>
+#include <limits>
+
+// One context per instance. Init/reset on the owning audio lifecycle thread.
+// Parameter changes and Process run on the same audio thread.
+class FPd@NAME@Dsp final {
+    HeavyContextInterface* Context = nullptr;
+    std::array<float, @COUNT@> Last;
+    std::array<std::array<float, 256>, 2> In{}, Out{};
+public:
+    FPd@NAME@Dsp() { Last.fill(std::numeric_limits<float>::quiet_NaN()); }
+    ~FPd@NAME@Dsp() { if (Context) hv_@NAME@_free(Context); }
+    FPd@NAME@Dsp(const FPd@NAME@Dsp&) = delete;
+    FPd@NAME@Dsp& operator=(const FPd@NAME@Dsp&) = delete;
+    bool Init(double Rate) {
+        if (Context) hv_@NAME@_free(Context);
+        Context = hv_@NAME@_new(Rate);
+        Last.fill(std::numeric_limits<float>::quiet_NaN());
+        return Context != nullptr;
+    }
+    void Set(int Index, float Value) {
+        static const unsigned Hashes[] = { @HASHES@ };
+        static const float Min[] = { @MIN@ }, Max[] = { @MAX@ }, Default[] = { @DEFAULT@ };
+        if (!Context || Index < 0 || Index >= @COUNT@) return;
+        if (!std::isfinite(Value)) Value = Default[Index];
+        Value = (std::max)(Min[Index], (std::min)(Max[Index], Value));
+        if (Value != Last[Index]) {
+            if (hv_sendFloatToReceiver(Context, Hashes[Index], Value)) Last[Index] = Value;
+        }
+    }
+    void Process(const float* L, const float* R, float* OutL, float* OutR, int Frames) {
+        if (!Context) {
+            std::fill_n(OutL, Frames, 0.f); std::fill_n(OutR, Frames, 0.f); return;
+        }
+        for (int Base = 0; Base < Frames; Base += 256) {
+            const int N = (std::min)(256, Frames - Base);
+            for (int I = 0; I < N; ++I) { In[0][I] = L[Base+I]; In[1][I] = R[Base+I]; }
+            float* Inputs[] = { In[0].data(), In[1].data() };
+            float* Outputs[] = { Out[0].data(), Out[1].data() };
+            hv_process(Context, Inputs, Outputs, N);
+            std::copy_n(Out[0].data(), N, OutL+Base); std::copy_n(Out[1].data(), N, OutR+Base);
+        }
+    }
+    void ProcessInterleaved(const float* Input, float* Output, int Frames) {
+        for (int Base = 0; Base < Frames; Base += 256) {
+            const int N = (std::min)(256, Frames - Base);
+            for (int I = 0; I < N; ++I) { In[0][I] = Input[2*(Base+I)]; In[1][I] = Input[2*(Base+I)+1]; }
+            Process(In[0].data(), In[1].data(), Out[0].data(), Out[1].data(), N);
+            for (int I = 0; I < N; ++I) { Output[2*(Base+I)] = Out[0][I]; Output[2*(Base+I)+1] = Out[1][I]; }
+        }
+    }
+};

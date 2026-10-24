@@ -1,0 +1,4 @@
+{
+  "ue_root": "/path/to/UnrealEngine",
+  "wwise_root": "/path/to/Wwise"
+}

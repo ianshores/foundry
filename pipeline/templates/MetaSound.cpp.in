@@ -1,0 +1,73 @@
+#include "MetasoundExecutableOperator.h"
+#include "MetasoundFacade.h"
+#include "MetasoundNodeRegistrationMacro.h"
+#include "MetasoundPrimitives.h"
+#include "MetasoundAudioBuffer.h"
+#include "MetasoundVertex.h"
+#include "Pd@NAME@Dsp.hpp"
+#define LOCTEXT_NAMESPACE "Pd@NAME@MetaSound"
+namespace Pd@NAME@ {
+using namespace Metasound;
+class FOperator : public TExecutableOperator<FOperator> {
+    FAudioBufferReadRef Left, Right;
+    FAudioBufferWriteRef OutLeft, OutRight;
+@PARAM_MEMBERS@
+    FPd@NAME@Dsp Dsp;
+public:
+    FOperator(const FBuildOperatorParams& Params)
+        : Left(Params.InputData.GetOrCreateDefaultDataReadReference<FAudioBuffer>("Left", Params.OperatorSettings)),
+          Right(Params.InputData.GetOrCreateDefaultDataReadReference<FAudioBuffer>("Right", Params.OperatorSettings)),
+          OutLeft(FAudioBufferWriteRef::CreateNew(Params.OperatorSettings)),
+          OutRight(FAudioBufferWriteRef::CreateNew(Params.OperatorSettings))
+@PARAM_INIT@
+    { Dsp.Init(Params.OperatorSettings.GetSampleRate()); }
+    static const FVertexInterface& GetVertexInterface() {
+        static const FVertexInterface Interface(
+            FInputVertexInterface(
+                TInputDataVertex<FAudioBuffer>("Left", FDataVertexMetadata{}),
+                TInputDataVertex<FAudioBuffer>("Right", FDataVertexMetadata{})@PARAM_VERTICES@
+            ),
+            FOutputVertexInterface(
+                TOutputDataVertex<FAudioBuffer>("Left", FDataVertexMetadata{}),
+                TOutputDataVertex<FAudioBuffer>("Right", FDataVertexMetadata{})
+            ));
+        return Interface;
+    }
+    static const FNodeClassMetadata& GetNodeInfo() {
+        static const FNodeClassMetadata Info = [] {
+            FNodeClassMetadata M;
+            M.ClassName = { "PD", "@NAME@", "Stereo" };
+            M.MajorVersion = 1; M.MinorVersion = 0;
+            M.DisplayName = LOCTEXT("Name", "@DISPLAY@");
+            M.Description = LOCTEXT("Description", "Compiled Pure Data stereo effect");
+            M.Author = TEXT("@MAKER@");
+            M.PromptIfMissing = LOCTEXT("Missing", "Enable the Pd@NAME@ plugin");
+            M.DefaultInterface = GetVertexInterface();
+            return M;
+        }();
+        return Info;
+    }
+    static TUniquePtr<IOperator> CreateOperator(const FBuildOperatorParams& Params, FBuildResults&) {
+        return MakeUnique<FOperator>(Params);
+    }
+    void BindInputs(FInputVertexInterfaceData& Data) override {
+        Data.BindReadVertex("Left", Left); Data.BindReadVertex("Right", Right);
+@PARAM_BIND@
+    }
+    void BindOutputs(FOutputVertexInterfaceData& Data) override {
+        Data.BindReadVertex("Left", OutLeft); Data.BindReadVertex("Right", OutRight);
+    }
+    void Reset(const IOperator::FResetParams& Params) { Dsp.Init(Params.OperatorSettings.GetSampleRate()); }
+    void Execute() {
+@SET_META@
+        Dsp.Process(Left->GetData(), Right->GetData(), OutLeft->GetData(), OutRight->GetData(), OutLeft->Num());
+    }
+};
+class FNode : public FNodeFacade {
+public:
+    static FNodeClassMetadata CreateNodeClassMetadata() { return FOperator::GetNodeInfo(); }
+    FNode(FNodeData Data) : FNodeFacade(Data, MakeShared<FNodeClassMetadata>(FOperator::GetNodeInfo()), TFacadeOperatorClass<FOperator>()) {}
+};
+METASOUND_REGISTER_NODE(FNode)
+}
+#undef LOCTEXT_NAMESPACE

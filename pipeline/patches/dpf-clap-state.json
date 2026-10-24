@@ -1,0 +1,9 @@
+{
+  "path": "distrho/src/DistrhoPluginCLAP.cpp",
+  "source_sha256": "63096f529e6a7e51dc3cd47255e92d7f4769852e7b5a19bf728f6ff506b3fb3a",
+  "reason": "Reject truncated or malformed parameter state instead of accepting any nonempty byte stream.",
+  "replacements": [
+    {"old": "            if (read == 0)\n                return !empty;", "new": "            if (read == 0)\n                return false; // A complete saved state must include its terminator."},
+    {"old": "        if (fHostExtensions.params != nullptr)\n            fHostExtensions.params->rescan(fHost, CLAP_PARAM_RESCAN_VALUES|CLAP_PARAM_RESCAN_TEXT);", "new": "        if (empty || queryingType != 'x' || !key.isEmpty() || !value.isEmpty())\n            return false; // Require a complete parameter section before accepting state.\n\n        if (fHostExtensions.params != nullptr)\n            fHostExtensions.params->rescan(fHost, CLAP_PARAM_RESCAN_VALUES|CLAP_PARAM_RESCAN_TEXT);"}
+  ]
+}

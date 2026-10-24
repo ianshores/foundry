@@ -1,0 +1,18 @@
+#include "Pd@NAME@Submix.h"
+void FPd@NAME@Submix::OnPresetChanged() {
+    GET_EFFECT_SETTINGS(Pd@NAME@Submix);
+@SET_SUBMIX@
+}
+void FPd@NAME@Submix::OnProcessAudio(const FSoundEffectSubmixInputData& InData, FSoundEffectSubmixOutputData& OutData) {
+    const float* Input = InData.AudioBuffer->GetData();
+    float* Output = OutData.AudioBuffer->GetData();
+    if (InData.NumChannels != 2) {
+        FMemory::Memcpy(Output, Input, InData.NumFrames * InData.NumChannels * sizeof(float));
+        return; // Explicit stereo contract: other layouts bypass unchanged.
+    }
+    Dsp.ProcessInterleaved(Input, Output, InData.NumFrames);
+}
+void UPd@NAME@SubmixPreset::SetSettings(const FPd@NAME@SubmixSettings& InSettings) {
+    Settings = InSettings;
+    UpdateSettings(InSettings);
+}

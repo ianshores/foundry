@@ -1,0 +1,683 @@
+{
+  "date": "2026-10-22",
+  "status": "passed",
+  "project": "C:\\dev\\pd-patches-build\\room-source-review\\DelayReview\\DelayReview.uproject",
+  "correction": "Room sources are saved actors in Room_A and Room_B, not audio spawned by the persistent controller. The persistent controller holds only the shared return reference and separate MetaSound preview.",
+  "room_sources": {
+    "Room_A": [
+      {
+        "actor": "/Game/PDReview/Room_A.Room_A:PersistentLevel.PdRoomClickSource_1",
+        "label": "Room_A_Click_Source",
+        "pitch": 0.5,
+        "looping": true
+      }
+    ],
+    "Room_B": [
+      {
+        "actor": "/Game/PDReview/Room_B.Room_B:PersistentLevel.PdRoomClickSource_0",
+        "label": "Room_B_Click_Source",
+        "pitch": 2.0,
+        "looping": true
+      }
+    ],
+    "PersistentDemo": []
+  },
+  "verification": {
+    "wwise": {
+      "status": "passed",
+      "capture": "C:\\dev\\pd-patches-build\\audible-review\\WwiseClickDelayCapture.wav",
+      "sample_rate": 48000,
+      "checks": [
+        "Wwise authoring transport through actual auxiliary return",
+        "700ms left / 1050ms right",
+        "feedback amplitude ratio 0.65"
+      ],
+      "transients": [
+        [
+          [
+            1.0,
+            0.35833740234375
+          ],
+          [
+            1.7,
+            0.35833740234375
+          ],
+          [
+            2.4,
+            0.23291015625
+          ],
+          [
+            3.1,
+            0.151397705078125
+          ],
+          [
+            3.8,
+            0.098388671875
+          ],
+          [
+            4.5,
+            0.06396484375
+          ],
+          [
+            5.0,
+            0.35833740234375
+          ],
+          [
+            5.2,
+            0.04156494140625
+          ],
+          [
+            5.7,
+            0.35833740234375
+          ],
+          [
+            5.9,
+            0.027008056640625
+          ],
+          [
+            6.4,
+            0.23291015625
+          ],
+          [
+            6.6,
+            0.017547607421875
+          ],
+          [
+            7.1,
+            0.151397705078125
+          ],
+          [
+            7.3,
+            0.01141357421875
+          ],
+          [
+            7.8,
+            0.098388671875
+          ],
+          [
+            8.0,
+            0.007415771484375
+          ],
+          [
+            8.5,
+            0.06396484375
+          ],
+          [
+            9.0,
+            0.35833740234375
+          ],
+          [
+            9.2,
+            0.04156494140625
+          ],
+          [
+            9.7,
+            0.35833740234375
+          ],
+          [
+            9.9,
+            0.027008056640625
+          ],
+          [
+            10.4,
+            0.23291015625
+          ],
+          [
+            10.6,
+            0.017547607421875
+          ],
+          [
+            11.1,
+            0.151397705078125
+          ],
+          [
+            11.3,
+            0.01141357421875
+          ],
+          [
+            11.8,
+            0.098388671875
+          ],
+          [
+            12.0,
+            0.007415771484375
+          ]
+        ],
+        [
+          [
+            1.0,
+            0.35833740234375
+          ],
+          [
+            2.05,
+            0.35833740234375
+          ],
+          [
+            3.1,
+            0.23291015625
+          ],
+          [
+            4.15,
+            0.151397705078125
+          ],
+          [
+            5.0,
+            0.35833740234375
+          ],
+          [
+            5.2,
+            0.098388671875
+          ],
+          [
+            6.05,
+            0.35833740234375
+          ],
+          [
+            6.25,
+            0.06396484375
+          ],
+          [
+            7.1,
+            0.23291015625
+          ],
+          [
+            7.3,
+            0.04156494140625
+          ],
+          [
+            8.15,
+            0.151397705078125
+          ],
+          [
+            8.35,
+            0.027008056640625
+          ],
+          [
+            9.0,
+            0.35833740234375
+          ],
+          [
+            9.2,
+            0.098388671875
+          ],
+          [
+            9.4,
+            0.017547607421875
+          ],
+          [
+            10.05,
+            0.35833740234375
+          ],
+          [
+            10.25,
+            0.06396484375
+          ],
+          [
+            10.45,
+            0.01141357421875
+          ],
+          [
+            11.1,
+            0.23291015625
+          ],
+          [
+            11.3,
+            0.04156494140625
+          ],
+          [
+            11.5,
+            0.007415771484375
+          ]
+        ]
+      ]
+    },
+    "unreal": {
+      "status": "passed",
+      "capture": "C:\\dev\\pd-patches-build\\room-source-review\\DelayReview\\Saved\\BouncedWavFiles\\PersistentDelayReturn.wav",
+      "sample_rate": 48000,
+      "room_pitch_check": {
+        "room_a_hz": 850,
+        "room_b_hz": 3400,
+        "octaves": 2.0
+      },
+      "checks": [
+        "actual Room_A / Room_B streaming",
+        "emitter destroyed before first echo",
+        "same GameInstance-held return across transitions",
+        "wet-only return echoes continue after unload and next room loads",
+        "700ms left / 1050ms right / feedback 0.72"
+      ],
+      "click_times": [
+        2.1,
+        13.533,
+        24.966
+      ],
+      "unload_times": [
+        2.5,
+        13.933,
+        25.366
+      ],
+      "next_level_visible_times": [
+        2.55,
+        13.983,
+        25.416
+      ],
+      "transients": [
+        [
+          [
+            2.55,
+            0.253692626953125
+          ],
+          [
+            3.25,
+            0.182647705078125
+          ],
+          [
+            3.95,
+            0.131500244140625
+          ],
+          [
+            4.65,
+            0.09466552734375
+          ],
+          [
+            5.35,
+            0.06817626953125
+          ],
+          [
+            6.05,
+            0.049072265625
+          ],
+          [
+            6.75,
+            0.03533935546875
+          ],
+          [
+            7.45,
+            0.025421142578125
+          ],
+          [
+            8.15,
+            0.018310546875
+          ],
+          [
+            8.85,
+            0.01318359375
+          ],
+          [
+            9.55,
+            0.009490966796875
+          ],
+          [
+            10.25,
+            0.0068359375
+          ],
+          [
+            13.755,
+            0.24615478515625
+          ],
+          [
+            14.455,
+            0.177215576171875
+          ],
+          [
+            15.155,
+            0.127593994140625
+          ],
+          [
+            15.855,
+            0.09185791015625
+          ],
+          [
+            16.555,
+            0.066131591796875
+          ],
+          [
+            17.255,
+            0.047607421875
+          ],
+          [
+            17.955,
+            0.034271240234375
+          ],
+          [
+            18.655,
+            0.024688720703125
+          ],
+          [
+            19.355,
+            0.01776123046875
+          ],
+          [
+            20.055,
+            0.012786865234375
+          ],
+          [
+            20.755,
+            0.009185791015625
+          ],
+          [
+            21.455,
+            0.006622314453125
+          ],
+          [
+            25.2,
+            0.253692626953125
+          ],
+          [
+            25.9,
+            0.182647705078125
+          ],
+          [
+            26.6,
+            0.131500244140625
+          ],
+          [
+            27.3,
+            0.09466552734375
+          ],
+          [
+            28.0,
+            0.06817626953125
+          ]
+        ],
+        [
+          [
+            2.9,
+            0.253692626953125
+          ],
+          [
+            3.95,
+            0.182647705078125
+          ],
+          [
+            5.0,
+            0.131500244140625
+          ],
+          [
+            6.05,
+            0.09466552734375
+          ],
+          [
+            7.1,
+            0.06817626953125
+          ],
+          [
+            8.15,
+            0.049072265625
+          ],
+          [
+            9.2,
+            0.03533935546875
+          ],
+          [
+            10.25,
+            0.025421142578125
+          ],
+          [
+            11.3,
+            0.018310546875
+          ],
+          [
+            12.35,
+            0.01318359375
+          ],
+          [
+            13.4,
+            0.009490966796875
+          ],
+          [
+            14.105,
+            0.24603271484375
+          ],
+          [
+            14.45,
+            0.0068359375
+          ],
+          [
+            15.155,
+            0.1771240234375
+          ],
+          [
+            16.205,
+            0.127532958984375
+          ],
+          [
+            17.255,
+            0.091827392578125
+          ],
+          [
+            18.305,
+            0.06610107421875
+          ],
+          [
+            19.355,
+            0.047576904296875
+          ],
+          [
+            20.405,
+            0.034271240234375
+          ],
+          [
+            21.455,
+            0.024658203125
+          ],
+          [
+            22.505,
+            0.01776123046875
+          ],
+          [
+            23.555,
+            0.012786865234375
+          ],
+          [
+            24.605,
+            0.009185791015625
+          ],
+          [
+            25.55,
+            0.253692626953125
+          ],
+          [
+            25.655,
+            0.00665283203125
+          ],
+          [
+            26.6,
+            0.182647705078125
+          ],
+          [
+            27.65,
+            0.131500244140625
+          ]
+        ]
+      ]
+    },
+    "metasound": {
+      "status": "passed",
+      "capture": "C:\\dev\\pd-patches-build\\room-source-review\\DelayReview\\Saved\\BouncedWavFiles\\MetaSoundClickDelay.wav",
+      "sample_rate": 48000,
+      "checks": [
+        "actual MetaSound Wave Player through compiled PD node",
+        "700ms left / 1050ms right",
+        "clicks repeat every four seconds"
+      ],
+      "transients": [
+        [
+          [
+            0.1,
+            0.088775634765625
+          ],
+          [
+            0.8,
+            0.164886474609375
+          ],
+          [
+            1.5,
+            0.107177734375
+          ],
+          [
+            2.2,
+            0.069671630859375
+          ],
+          [
+            2.9,
+            0.0452880859375
+          ],
+          [
+            3.6,
+            0.0294189453125
+          ],
+          [
+            4.1,
+            0.088775634765625
+          ],
+          [
+            4.3,
+            0.019134521484375
+          ],
+          [
+            4.8,
+            0.164886474609375
+          ],
+          [
+            5.0,
+            0.012420654296875
+          ],
+          [
+            5.5,
+            0.107177734375
+          ],
+          [
+            5.7,
+            0.008056640625
+          ],
+          [
+            6.2,
+            0.069671630859375
+          ],
+          [
+            6.9,
+            0.0452880859375
+          ],
+          [
+            7.6,
+            0.0294189453125
+          ],
+          [
+            8.1,
+            0.088775634765625
+          ],
+          [
+            8.3,
+            0.019134521484375
+          ],
+          [
+            8.8,
+            0.164886474609375
+          ],
+          [
+            9.0,
+            0.012420654296875
+          ],
+          [
+            9.5,
+            0.107177734375
+          ],
+          [
+            9.7,
+            0.008056640625
+          ]
+        ],
+        [
+          [
+            0.1,
+            0.088775634765625
+          ],
+          [
+            1.15,
+            0.164886474609375
+          ],
+          [
+            2.2,
+            0.107177734375
+          ],
+          [
+            3.25,
+            0.069671630859375
+          ],
+          [
+            4.1,
+            0.088775634765625
+          ],
+          [
+            4.3,
+            0.0452880859375
+          ],
+          [
+            5.15,
+            0.164886474609375
+          ],
+          [
+            5.35,
+            0.0294189453125
+          ],
+          [
+            6.2,
+            0.107177734375
+          ],
+          [
+            6.4,
+            0.019134521484375
+          ],
+          [
+            7.25,
+            0.069671630859375
+          ],
+          [
+            7.45,
+            0.012420654296875
+          ],
+          [
+            8.1,
+            0.088775634765625
+          ],
+          [
+            8.3,
+            0.0452880859375
+          ],
+          [
+            8.5,
+            0.008056640625
+          ],
+          [
+            9.15,
+            0.164886474609375
+          ],
+          [
+            9.35,
+            0.0294189453125
+          ]
+        ]
+      ]
+    }
+  },
+  "changes": [
+    "Placed looping PdRoomClickSource actors into each saved room map.",
+    "Removed the Submix-demo click asset and runtime audio creation from the persistent controller.",
+    "Set Room A pitch to 0.5x and Room B to 2.0x. Actual captured frequencies are 850 Hz and 3400 Hz.",
+    "Trigger the room-owned source, request room unload 350 ms later while the loop is still playing, then collect its actor and load the other room.",
+    "Keep the same GameInstance-held return and preset alive, with stereo echo timing 700/1050 ms and feedback 0.72.",
+    "Verify saved map ownership independently: one source per room, none in PersistentDemo.",
+    "Select Room A source in a separately opened corrected editor project and replace the previous playing demo. Existing editing sessions were preserved."
+  ],
+  "notes": [
+    "Pitched decoding adds startup buffering, so the recording check permits source-start latency while independently checking exact echo spacing, pitch separation, and echoes after actual source destruction.",
+    "The final remote launch status read did not return and was stopped. The corrected launch request completed; build, saved placement, recorded audio and archive checks passed."
+  ],
+  "archive": {
+    "path": "/home/ian/Documents/Codex/2026-10-20/new-chat/outputs/pd-stereo-delay-room-demos.zip",
+    "bytes": 9878040,
+    "sha256": "afaa7bcdf056c93c2fe34acf843566c6b0d5447236a101833c6fc9672c8d3131"
+  }
+}
